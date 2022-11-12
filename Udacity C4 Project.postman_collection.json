@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "6089a90e-0241-493f-90b1-b464594520eb",
+		"name": "Udacity C4 Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TODOs",
+			"item": [
+				{
+					"name": "Get all todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create todo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Water flowers\",\n\t\"dueDate\": \"2019-06-11\"\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update todo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"35dd600f-43c2-4649-903c-615e1586a26f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete todo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"fe671583-4512-45f6-9475-4265c04362fb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get attachment URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"3836b777-9bc4-4429-9b79-ba4e4f5f91c0",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkpfQkY2NVUtYzJvTnd2MUtXa0djTiJ9.eyJpc3MiOiJodHRwczovL2Rldi1vMWp6MWJoaC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjMzZDI3NTYzMDQxYWM0Y2VkMTA5YTE2IiwiYXVkIjoibkw4YmxpWGd4bHZZUzhUY3lVVndkWjJDbXJxRXhVU0IiLCJpYXQiOjE2NjQ5NTQxMDIsImV4cCI6MTY2NDk5MDEwMiwiYXRfaGFzaCI6ImQ5Umgta2lJeEdLb0x4R0t6LV9Ba1EiLCJzaWQiOiJSWERmLWtnaTVnSHFKaTkzc1cyQ256NnVoQlBHdXd0MiIsIm5vbmNlIjoia2JnTllmcVhUbTZ3Zl9tSTQ5RFZDOEl1NjFHYzMzTmYifQ.rPG-WGZjzEDufgG4ANSp6K0mxnLwTMEINmmU4GECPNz_7w4bB4VSCyP391UNNSwxB3yADkXfeJcPVcOThNvfcTC-3EF1u7LVHlcEFpPz-8g8cGARVBUyfMxe3JYe00SIR0J9247ApxdJSYsfZ7l3Kw74y4tdQqT2vcp-NzKBkqvbCPzIjnUJ20dmyu4Ng0uthtJTrwQ6PXmCyPCjwttmPXSroK8-Sg1tYFN_ombh7LkKI690DjHq-4uiddAGjBmU4Zf6mbl46iaqWZMyGIKK2z9lZqAAy6ILjDBsAfUCz8cPyj2MecA74VqfRGaE08PVDQrgxOu0sAg_1QsxRvw7xg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "apiId",
+			"value": "5fey8sl955",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIiwiaXNzIjoiaHR0cHM6Ly9kZXYtbzFqejFiaGgudXMuYXV0aDAuY29tLyJ9..F9kBt3xvk9-b_Y9F.fncaHPd5e1c-IkpqwUrTEkh4Pc95vVLTyT-MaHMtHf1m7Yxor0c5VVEXIVeys2h3b1k-brSKwjL1lZMn8DxAamXf5RrYlOmmb4EqRkn_Lm3hW0aYl5rW_r10HoWZv7b9crXg41zsc-8C5Nsb9gmXsx9QO2oczSE_eynWJ0KLdPL7gf2wOmxacUC61vveXTATsJneKQBdtp4JDxl5-kP2Fxrb0SeTPh1gEu_DHWe_EN793owfIi2uUoE_9Wns5kY3inCEnR2r4Ukr9s4lQdulXLU4P8wE8S7HggF7b_wr9sRR-JKD.MC0mPZmoJD0hUTKJenOy9A",
+			"type": "string"
+		}
+	]
+}
