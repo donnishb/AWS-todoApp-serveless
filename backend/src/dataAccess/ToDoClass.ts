@@ -3,6 +3,9 @@ import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import { Types } from 'aws-sdk/clients/s3';
 import { TodoItem } from "../models/TodoItem";
 import { TodoUpdate } from "../models/TodoUpdate";
+import { createLogger } from '../utils/logger';
+const logger = createLogger('TodosAccess');
+
 const AWS_Xray = require('aws-xray-sdk')
 const Xray_AWS = AWS_Xray.captureAWS(AWS)
 
@@ -40,7 +43,8 @@ export class ToDoClass {
     async createToDo(todoItem: TodoItem): Promise<TodoItem> {
 
         console.log("Creating a new todoItem");
-
+        logger.info(`creating todoItem with id: ${todoItem.todoId}`);
+        
         const paramsObj = {
             TableName: this.todosTable,
             Item: todoItem,
@@ -102,8 +106,9 @@ export class ToDoClass {
     }
 
     async generateUploadUrl(todoId: string): Promise<string> {
-        console.log("Retrieving URL");
 
+        console.log("Retrieving URL");
+        logger.info('Generating upload URL', todoId);
         const url:string = this.s3InstanceClient.getSignedUrl('putObject', {
             Bucket: this.s3Bucket,
             Key: todoId,

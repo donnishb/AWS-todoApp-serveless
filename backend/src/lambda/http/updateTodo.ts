@@ -2,10 +2,15 @@ import 'source-map-support/register'
 import {APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult} from 'aws-lambda'
 import {TodoUpdateRequest} from '../../requests/UpdateTodoRequest'
 import {updateToDo} from "../../businessLogic/ToDo";
+import { createLogger } from '../../utils/logger';
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
     console.log("Processing Event ", event);
+    const logger = createLogger('updateTodo');
+
+    logger.info('Updating TodoItem');
+    
     const authorization = event.headers.Authorization;
     const spaced = authorization.split(' ');
     const jwtToken = spaced[1];
