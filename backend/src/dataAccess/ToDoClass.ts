@@ -6,19 +6,21 @@ import { TodoUpdate } from "../models/TodoUpdate";
 const AWS_Xray = require('aws-xray-sdk')
 const Xray_AWS = AWS_Xray.captureAWS(AWS)
 
-export class ToDoAccess {
+export class ToDoClass {
     constructor(
-        private readonly docClient: DocumentClient = new Xray_AWS.DynamoDB.DocumentClient(),
-        private readonly s3Client: Types = new Xray_AWS.S3({ signatureVersion: 'v4' }),
-        private readonly todoTable = process.env.TODOS_TABLE,
-        private readonly s3BucketName = process.env.S3_BUCKET_NAME) {
+        private readonly s3Bucket = process.env.S3_BUCKET_NAME,
+        private readonly s3InstanceClient: Types = new Xray_AWS.S3({ signatureVersion: 'v4' }),
+        private readonly dynamoInstanceClient: DocumentClient = new Xray_AWS.DynamoDB.DocumentClient(),
+        private readonly todosTable = process.env.TODOS_TABLE,
+        ) {
     }
 
     async getAllToDo(userId: string): Promise<TodoItem[]> {
-        console.log("Getting all todo");
 
-        const params = {
-            TableName: this.todoTable,
+        console.log("Fetching todos");
+         
+        const paramsObj = {
+            TableName: this.todosTable,
             KeyConditionExpression: "#userId = :userId",
             ExpressionAttributeNames: {
                 "#userId": "userId"
@@ -28,32 +30,34 @@ export class ToDoAccess {
             }
         };
 
-        const result = await this.docClient.query(params).promise();
-        console.log(result);
-        const items = result.Items;
+        const promiseResult = await this.dynamoInstanceClient.query(paramsObj).promise();
+        console.log(promiseResult);
+        const items = promiseResult.Items;
 
         return items as TodoItem[];
     }
 
     async createToDo(todoItem: TodoItem): Promise<TodoItem> {
-        console.log("Creating new todo");
 
-        const params = {
-            TableName: this.todoTable,
+        console.log("Creating a new todoItem");
+
+        const paramsObj = {
+            TableName: this.todosTable,
             Item: todoItem,
         };
 
-        const result = await this.docClient.put(params).promise();
-        console.log(result);
+        const promiseResult = await this.dynamoInstanceClient.put(paramsObj).promise();
+        console.log(promiseResult);
 
         return todoItem as TodoItem;
     }
 
     async updateToDo(todoUpdate: TodoUpdate, todoId: string, userId: string): Promise<TodoUpdate> {
+
         console.log("Updating todo");
 
-        const params = {
-            TableName: this.todoTable,
+        const paramsObj = {
+            TableName: this.todosTable,
             Key: {
                 "userId": userId,
                 "todoId": todoId
@@ -72,35 +76,36 @@ export class ToDoAccess {
             ReturnValues: "ALL_NEW"
         };
 
-        const result = await this.docClient.update(params).promise();
-        console.log(result);
-        const attributes = result.Attributes;
+        const promiseResult = await this.dynamoInstanceClient.update(paramsObj).promise();
+        console.log(promiseResult);
+        const att = promiseResult.Attributes;
 
-        return attributes as TodoUpdate;
+        return att as TodoUpdate;
     }
 
     async deleteToDo(todoId: string, userId: string): Promise<string> {
+        
         console.log("Deleting todo");
 
-        const params = {
-            TableName: this.todoTable,
+        const paramsObj = {
+            TableName: this.todosTable,
             Key: {
                 "userId": userId,
                 "todoId": todoId
             },
         };
 
-        const result = await this.docClient.delete(params).promise();
-        console.log(result);
+        const promiseResult = await this.dynamoInstanceClient.delete(paramsObj).promise();
+        console.log(promiseResult);
 
         return "" as string;
     }
 
     async generateUploadUrl(todoId: string): Promise<string> {
-        console.log("Generating URL");
+        console.log("Retrieving URL");
 
-        const url = this.s3Client.getSignedUrl('putObject', {
-            Bucket: this.s3BucketName,
+        const url:string = this.s3InstanceClient.getSignedUrl('putObject', {
+            Bucket: this.s3Bucket,
             Key: todoId,
             Expires: 1000,
         });
